@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  fastapi:
+    build: ./engine
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      - tesseract
+    environment:
+      - TESSERACT_HOST=tesseract
+      - TESSERACT_PORT=9000
+
+  tesseract:
+    image: jitesoft/tesseract-ocr
+    ports:
+      - "9000:9000"  # Expose Tesseract OCR service on port 9000 (for API access)
+    volumes:
+      - ./uploads:/uploads
